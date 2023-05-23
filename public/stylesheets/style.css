@@ -1,0 +1,52 @@
+body {
+  height: 100vh;
+  /* font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;  */
+  font-family: "Poppins", sans-serif !important;
+  background-image: url("../images/bg.png");
+  background-size: cover;
+}
+:root {
+  --green-bg: #c8e3c7;
+}
+
+.signup-middle-side {
+  background-color: #bd8183;
+  padding: 20px 30px;
+  border-radius: 20px;
+  display: grid;
+  align-items: center;
+  margin: auto !important;
+}
+
+.left-side-nav {
+  background-color: var(--green-bg);
+}
+
+.dropdown-profile {
+  background-color: #fff !important;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+}
+
+.profile-page-bg {
+  background-color: var(--green-bg);
+  height: 100vh;
+  display: flex;
+}
+
+.profile-card {
+  width: 22rem;
+  padding: 30px;
+}
+
+.title{
+  font-weight: 800;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #3d2829;
+}
+.signUpBtn{
+  background-color: #F3EED9 !important;  
+}
