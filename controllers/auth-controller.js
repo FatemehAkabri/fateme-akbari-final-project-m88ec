@@ -37,7 +37,7 @@ const signUp = asyncHandler(async (req, res, next) => {
 });
 
 const login = asyncHandler(async (req, res, next) => {
-  const { userId: userSession = null } = req.session;
+  const { user: userSession = null } = req.session;
   if (!!userSession)
     return next(new AppError(401, "this user already login,first logout!"));
 
@@ -63,19 +63,20 @@ const logout = (req, res, next) => {
   req.session.destroy((err) => {
     if (!!err) return next(err);
   });
-  res.send("you are logout");
-  // res.render("pages/login-page");
+  // res.send("you are logout");
+  res.render("pages/login-page");
 };
 
 const protect = asyncHandler(async (req, res, next) => {
-  const { userId } = req.session;
+  const { user } = req.session;
+  console.log(user);
 
-  if (!userId)
+  if (!user)
     return next(new AppError(401, "you are not logged in, please login first"));
 
-  const user = await User.findById(userId);
+  const userFind = await User.findById(user._id);
 
-  if (!user) return next(new AppError(401, "this user is not exist"));
+  if (!userFind) return next(new AppError(401, "this user is not exist"));
 
   next();
 });
