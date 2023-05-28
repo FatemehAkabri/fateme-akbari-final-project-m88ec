@@ -5,8 +5,8 @@ const articleValidation = Joi.object({
   discription: Joi.string().min(3),
   thumbnail: Joi.string().required(),
   content: Joi.string().required(),
-  articlePicturs: Joi.array().items(Joi.string()),
-  author: Joi.required(),
+  articlePicturs: Joi.string()
+  // author: Joi.required(),
 });
 
 

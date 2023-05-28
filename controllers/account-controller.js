@@ -123,7 +123,6 @@ const changePassword = asyncHandler(async (req, res, next) => {
 const getAllArticles = asyncHandler(async (req, res, next) => {
   // show all article
   //pagination
-  console.log("getAllArticles function");
   const { user, articleId } = req.session;
   if (!user) return next(new AppError(401, "you dont have permision"));
 
@@ -143,9 +142,8 @@ const getAllArticles = asyncHandler(async (req, res, next) => {
 });
 
 const createNewArticle = asyncHandler(async (req, res, next) => {
-  const author =
-   req.session.userId;
-
+  const author = req.session.user._id;
+  const { articleSession = null } = req.session;
   const { title, discription, thumbnail, content, articlePicturs } = req.body;
 
   const newArticle = new article({
@@ -154,15 +152,16 @@ const createNewArticle = asyncHandler(async (req, res, next) => {
     thumbnail,
     content,
     articlePicturs,
-    author,
+    author: author,
   });
   const saved = await newArticle.save();
-  console.log(req.session);
-  res.redirect()
+
+  const filteredArticle = { ...saved.toObject() };
+  req.session.articleSession = filteredArticle;
+  res.redirect("/article-show");
 });
 
 const getArticleById = asyncHandler(async (req, res, next) => {
-  console.log("getArticleById");
   const articleId = req.params.id;
   const { articleSession = null } = req.session;
 
@@ -170,11 +169,28 @@ const getArticleById = asyncHandler(async (req, res, next) => {
 
   const filteredArticle = { ...articleFind.toObject() };
   req.session.articleSession = filteredArticle;
-  console.log(req.session);
-  console.log("filteredArticle:", filteredArticle);
-  res.redirect("/article-show");
-  // res.redirect(`/get-article/${filteredArticle._id}`);
+
+  res.redirect(`/article-show/${articleId}`);
 });
+
+const deleteArticle = asyncHandler(async (req, res, next) => {
+  console.log("delete");
+  const articleId = req.params.id;
+  const deletedArticle = await article.findByIdAndDelete(articleId);
+  res.redirect("/api/account/articles");
+});
+
+module.exports = {
+  getUser,
+  updateUser,
+  uploadUserAvatar,
+  deleteUser,
+  changePassword,
+  getAllArticles,
+  createNewArticle,
+  getArticleById,
+  deleteArticle,
+};
 
 // const updateArticle = asyncHandler(async (req, res, next) => {
 //   const author = req.session.userId;
@@ -212,14 +228,3 @@ const getArticleById = asyncHandler(async (req, res, next) => {
 //   // res.redirect("/view-profile");
 //   res.send(user);
 // });
-
-module.exports = {
-  getUser,
-  updateUser,
-  uploadUserAvatar,
-  deleteUser,
-  changePassword,
-  getAllArticles,
-  createNewArticle,
-  getArticleById,
-};

@@ -20,10 +20,10 @@ const Article = new Schema({
     required:true
   },
   articlePicturs:{
-    type: [String],
+    type: String,
   },
   author:{
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "user",
     required: true
   }

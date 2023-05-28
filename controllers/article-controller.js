@@ -6,7 +6,6 @@ const getAllArticle = asyncHandler(async (req, res, next) => {
   // show all article
   //pagination
   const userId = req.session.user._id;
-  console.log(userId);
   // const articles = await Article.find();
 
   // res.status(200).json({
@@ -21,6 +20,7 @@ const getAllArticle = asyncHandler(async (req, res, next) => {
 // })
 
 const createNewArticle = asyncHandler(async (req, res, next) => {
+  console.log("articlePicturs:", articlePicturs);
   const { title, discription, thumbnail, content, articlePicturs } = req.body;
 
   const author = req.session.user._id;
@@ -30,7 +30,7 @@ const createNewArticle = asyncHandler(async (req, res, next) => {
     discription,
     thumbnail,
     content,
-    articlePicturs,
+    articlePicturs: articlePicturs,
     author,
   });
   res.send(newArticle.save());

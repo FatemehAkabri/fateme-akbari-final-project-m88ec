@@ -3,7 +3,6 @@ const { AppError } = require("../utils/appError");
 const { asyncHandler } = require("../utils/async-handler");
 
 const signUp = asyncHandler(async (req, res, next) => {
-  console.log("signup-page");
   const { userId: userSession = null } = req.session;
   if (!!userSession) {
     return next(new AppError(401, "this user already exist,just login!"));
@@ -33,13 +32,11 @@ const signUp = asyncHandler(async (req, res, next) => {
     role,
     avatar,
   });
-  console.log(newUser);
   // req.session.userId = newUser._id;
   res.redirect("/login-page");
 });
 
 const login = asyncHandler(async (req, res, next) => {
-  console.log("login");
   const { userId: userSession = null } = req.session;
   if (!!userSession)
     return next(new AppError(401, "this user already login,first logout!"));
@@ -57,7 +54,6 @@ const login = asyncHandler(async (req, res, next) => {
     return next(new AppError(401, "username or !password is not match"));
 
   req.session.user = user;
-  console.log("session:",req.session);
 
   res.redirect("/dashboard");
   // res.send("you are login");
@@ -89,7 +85,6 @@ const restrictTo = (...roles) => {
     const { userId } = req.session;
     const { role } = await User.findById(userId);
 
-    console.log(roles);
 
     if (!roles.includes(role))
       return next(new AppError(401, "this user doesn't have permission"));

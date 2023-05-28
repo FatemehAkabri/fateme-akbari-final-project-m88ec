@@ -18,7 +18,6 @@ const dashboard = (req, res, next) => {
     console.log("session not save ");
     res.redirect("/login-page");
   }
-  console.log(req.session.userId);
   res.render("pages/dashboard", { user: req.session.user });
 };
 
@@ -38,7 +37,6 @@ const deleteUser = async (req, res, next) => {
   try {
     console.log("delete");
     const user = await User.findByIdAndDelete(req.session.user._id);
-    console.log("ok");
 
     res.render("pages/login-page");
   } catch (error) {
@@ -47,8 +45,7 @@ const deleteUser = async (req, res, next) => {
 };
 
 const renderArticlesPage = (req, res, next) => {
-  console.log("articlesId:", req.session.articleId[0].title);
-  console.log("renderArticlesPage");
+
   res.render("pages/user-article", {
     user: req.session.user,
     articles: req.session.articleId,
@@ -56,18 +53,16 @@ const renderArticlesPage = (req, res, next) => {
 };
 
 const renderArticleShowPage = (req, res, next) => {
-  console.log("renderArticleShowPage");
-  console.log(req.session.articleSession);
-
-  console.log("show article");
-  res.render("pages/article-view", {
+  res.render("pages/article-show", {
     user: req.session.user,
     article: req.session.articleSession,
   });
 };
 
 const renderNewArticlePage=(req,res,next)=>{
-  res.render('')
+
+  res.render('pages/new-article',{user: req.session.user,
+  article: req.session.articleSession,})
 }
 
 module.exports = {
@@ -79,5 +74,6 @@ module.exports = {
   avatar,
   deleteUser,
   renderArticlesPage,
-  renderArticleShowPage
+  renderArticleShowPage,
+  renderNewArticlePage
 };

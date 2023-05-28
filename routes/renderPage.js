@@ -9,7 +9,8 @@ const {
   avatar,
   deleteUser,
   renderArticlesPage,
-  renderArticleShowPage
+  renderArticleShowPage,
+  renderNewArticlePage,
 } = require("../controllers/renderPageController");
 const router = express.Router();
 
@@ -17,23 +18,20 @@ router.get("/signup-page", renderSignup);
 
 router.get("/login-page", renderLogin);
 
-router.get("/dashboard",dashboard)
+router.get("/dashboard", dashboard);
 
+router.get("/view-profile", profile);
 
-router.get("/view-profile",profile)
+router.get("/edit-profile", editProfile);
 
-router.get("/edit-profile",editProfile)
+router.get("/upload-avatar", avatar);
 
-router.get("/upload-avatar",avatar)
+router.get("/delete", deleteUser);
 
-router.get("/delete",deleteUser)
+router.get("/user-all-articles", renderArticlesPage);
 
-router.get('/user-all-articles',renderArticlesPage)
+router.get("/article-show/:id", renderArticleShowPage);
 
-router.get('/article-show',renderArticleShowPage)
-
-router.get("/new-article",renderNewArticlePage)
-
-
+router.get("/new-article", renderNewArticlePage);
 
 module.exports = router;

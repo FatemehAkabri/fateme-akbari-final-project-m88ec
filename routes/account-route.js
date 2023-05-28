@@ -7,6 +7,7 @@ const {
   getAllArticles,
   createNewArticle,
   getArticleById,
+  deleteArticle,
 } = require("../controllers/account-controller");
 const { protect } = require("../controllers/auth-controller");
 const {
@@ -20,6 +21,7 @@ const { validator } = require("../middleware/validation");
 const router = require("express").Router();
 
 router.get("/", protect, getUser);
+
 router.patch(
   "/",
   protect,
@@ -27,7 +29,9 @@ router.patch(
   validator(updateUserValidator),
   updateUser
 );
+
 router.delete("/", protect, deleteUser);
+
 router.put(
   "/change-password",
   protect,
@@ -35,14 +39,12 @@ router.put(
   changePassword
 );
 
+router.post("/article", validator(articleValidation), createNewArticle);
+
 router.get("/articles", getAllArticles);
+
 router.get("/get-article/:id", getArticleById);
 
-router.post(
-  "/article",
-  protect,
-  validator(articleValidation),
-  createNewArticle
-);
+router.get("/delete/:id", deleteArticle);
 
 module.exports = router;
